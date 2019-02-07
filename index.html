@@ -64,29 +64,23 @@
                 },
                 scene
             );
-
-// key bind settings
-            var map = {}; //object for multiple key presses
+            //key event handler
             scene.actionManager = new BABYLON.ActionManager(scene);
-            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {
-                map[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
-            }));
-
-            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyUpTrigger, function (evt) {
-                map[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
-            }));
-//          
-
-            scene.registerAfterRender(function () {
-
-                if (map["S"] ) {
-                    vrHelper.enterVR();
-                };
-                if (map["E"] ) {
-                    vrHelper.exitVR();
-                };
-            });
-        
+            scene.actionManager.registerAction(
+            new BABYLON.ExecuteCodeAction({
+            trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+            parameter: 's'
+            },
+            function () { vrHelper.enterVR(); }
+            ));
+            
+            scene.actionManager.registerAction(
+            new BABYLON.ExecuteCodeAction({
+            trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+            parameter: 'e'
+            },
+            function () { vrHelper.exitVR(); document.exitFullscreen();}
+             ));
             return scene;
         };
         
